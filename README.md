@@ -6,7 +6,7 @@ certain operations on big collections of values.
 ## Usage
 
 ```sh
-npm install https://github.com/Palladium02/itertools.git
+npm install https://github.com/Palladium02/iterators.git
 ```
 
 ```ts

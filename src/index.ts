@@ -142,6 +142,21 @@ export function enumerate<T>(
   })();
 }
 
+export function occurrences<T>(iterator: IterableIterator<T>): Map<T, number> {
+  return reduce(
+    iterator,
+    (acc, item) => {
+      if (acc.has(item)) {
+        acc.set(item, acc.get(item) + 1);
+      } else {
+        acc.set(item, 1);
+      }
+      return acc;
+    },
+    new Map()
+  );
+}
+
 export function toArray<T>(iterator: IterableIterator<T>): Array<T> {
   return [...iterator];
 }
@@ -188,6 +203,10 @@ export class Iterate<T> {
 
   public nth(n: number): T {
     return nth(this.iterator, n);
+  }
+
+  public occurrences() {
+    return occurrences(this.iterator);
   }
 }
 

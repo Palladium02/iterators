@@ -12,6 +12,7 @@ import {
   range,
   reduce,
   sum,
+  occurrences,
   take,
   toArray,
 } from '../src/index';
@@ -103,5 +104,21 @@ describe('enumerate', () => {
       [3, 3],
       [4, 4],
     ]);
+  });
+});
+
+describe('occurrences', () => {
+  it('should count the occurrences of the element and collect them in a Map', () => {
+    const result = occurrences(take(naturals(), 5));
+    assert.deepEqual(
+      result,
+      new Map([
+        [0, 1],
+        [1, 1],
+        [2, 1],
+        [3, 1],
+        [4, 1],
+      ])
+    );
   });
 });

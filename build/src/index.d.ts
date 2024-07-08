@@ -10,6 +10,7 @@ export declare function product(iterator: IterableIterator<number>): number;
 export declare function count<T>(iterator: IterableIterator<T>): number;
 export declare function nth<T>(iterator: IterableIterator<T>, n: number): T;
 export declare function enumerate<T>(iterator: IterableIterator<T>): IterableIterator<[number, T]>;
+export declare function occurrences<T>(iterator: IterableIterator<T>): Map<T, number>;
 export declare function toArray<T>(iterator: IterableIterator<T>): Array<T>;
 export declare function fromArray<T>(array: Array<T>): IterableIterator<T>;
 export declare class Iterate<T> {

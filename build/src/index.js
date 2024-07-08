@@ -13,6 +13,7 @@ exports.product = product;
 exports.count = count;
 exports.nth = nth;
 exports.enumerate = enumerate;
+exports.occurrences = occurrences;
 exports.toArray = toArray;
 exports.fromArray = fromArray;
 exports.iterate = iterate;
@@ -112,7 +113,7 @@ function product(iterator) {
     return reduce(iterator, (acc, item) => acc * item, 1);
 }
 function count(iterator) {
-    return reduce(iterator, (acc, _) => acc + 1, 0);
+    return reduce(iterator, acc => acc + 1, 0);
 }
 function nth(iterator, n) {
     let idx = 0;
@@ -139,6 +140,17 @@ function enumerate(iterator) {
             };
         }
     })();
+}
+function occurrences(iterator) {
+    return reduce(iterator, (acc, item) => {
+        if (acc.has(item)) {
+            acc.set(item, acc.get(item) + 1);
+        }
+        else {
+            acc.set(item, 1);
+        }
+        return acc;
+    }, new Map());
 }
 function toArray(iterator) {
     return [...iterator];

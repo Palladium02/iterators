@@ -11,6 +11,7 @@ export declare function count<T>(iterator: IterableIterator<T>): number;
 export declare function nth<T>(iterator: IterableIterator<T>, n: number): T;
 export declare function enumerate<T>(iterator: IterableIterator<T>): IterableIterator<[number, T]>;
 export declare function occurrences<T>(iterator: IterableIterator<T>): Map<T, number>;
+export declare function zip<T, U>(a: IterableIterator<T>, b: IterableIterator<U>): IterableIterator<[T, U]>;
 export declare function toArray<T>(iterator: IterableIterator<T>): Array<T>;
 export declare function fromArray<T>(array: Array<T>): IterableIterator<T>;
 export declare class Iterate<T> {
@@ -23,5 +24,7 @@ export declare class Iterate<T> {
     reduce<U>(fn: (acc: U, item: T) => U, init: U): U;
     count(): number;
     nth(n: number): T;
+    occurrences(): Map<T, number>;
+    zip<U>(other: IterableIterator<U>): IterableIterator<[T, U]>;
 }
 export declare function iterate<T>(iterator: IterableIterator<T>): Iterate<T>;

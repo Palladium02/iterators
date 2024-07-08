@@ -11,7 +11,7 @@
   "keywords": [],
   "scripts": {
     "test": "node --test ./build/test/index.test.js",
-    "test:perf": "tsnd test/index.test.ts",
+    "test:perf": "tsnd test/perf.test.ts",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",

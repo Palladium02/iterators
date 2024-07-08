@@ -157,6 +157,23 @@ export function occurrences<T>(iterator: IterableIterator<T>): Map<T, number> {
   );
 }
 
+export function zip<T, U>(
+  a: IterableIterator<T>,
+  b: IterableIterator<U>
+): IterableIterator<[T, U]> {
+  return new (class extends BaseIterator {
+    public next(): IteratorResult<[T, U]> {
+      const nextA = a.next();
+      const nextB = b.next();
+      if (nextA.done || nextB.done) return {done: true, value: null};
+      return {
+        done: false,
+        value: [nextA.value, nextB.value],
+      };
+    }
+  })();
+}
+
 export function toArray<T>(iterator: IterableIterator<T>): Array<T> {
   return [...iterator];
 }
@@ -207,6 +224,10 @@ export class Iterate<T> {
 
   public occurrences() {
     return occurrences(this.iterator);
+  }
+
+  public zip<U>(other: IterableIterator<U>) {
+    return zip(this.iterator, other);
   }
 }
 

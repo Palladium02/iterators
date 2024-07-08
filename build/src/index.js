@@ -14,6 +14,7 @@ exports.count = count;
 exports.nth = nth;
 exports.enumerate = enumerate;
 exports.occurrences = occurrences;
+exports.zip = zip;
 exports.toArray = toArray;
 exports.fromArray = fromArray;
 exports.iterate = iterate;
@@ -152,6 +153,20 @@ function occurrences(iterator) {
         return acc;
     }, new Map());
 }
+function zip(a, b) {
+    return new (class extends BaseIterator {
+        next() {
+            const nextA = a.next();
+            const nextB = b.next();
+            if (nextA.done || nextB.done)
+                return { done: true, value: null };
+            return {
+                done: false,
+                value: [nextA.value, nextB.value],
+            };
+        }
+    })();
+}
 function toArray(iterator) {
     return [...iterator];
 }
@@ -195,6 +210,12 @@ class Iterate {
     }
     nth(n) {
         return nth(this.iterator, n);
+    }
+    occurrences() {
+        return occurrences(this.iterator);
+    }
+    zip(other) {
+        return zip(this.iterator, other);
     }
 }
 exports.Iterate = Iterate;

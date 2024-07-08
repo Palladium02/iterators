@@ -13,6 +13,7 @@ import {
   reduce,
   sum,
   occurrences,
+  zip,
   take,
   toArray,
 } from '../src/index';
@@ -120,5 +121,20 @@ describe('occurrences', () => {
         [4, 1],
       ])
     );
+  });
+});
+
+describe('zip', () => {
+  it('should zip two iterators together', () => {
+    const even = filter(take(naturals(), 10), n => n % 2 === 0);
+    const odd = filter(take(naturals(), 10), n => n % 2 === 1);
+    const result = toArray(zip(even, odd));
+    assert.deepEqual(result, [
+      [0, 1],
+      [2, 3],
+      [4, 5],
+      [6, 7],
+      [8, 9],
+    ]);
   });
 });

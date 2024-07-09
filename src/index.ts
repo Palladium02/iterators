@@ -191,6 +191,20 @@ export function fromArray<T>(array: Array<T>): IterableIterator<T> {
   })();
 }
 
+export function toMap<T, U>(iterator: IterableIterator<[T, U]>): Map<T, U> {
+  return reduce(iterator, (acc, item) => {
+    acc.set(item[0], item[1]);
+    return acc;
+  }, new Map());
+}
+
+export function collect<T, U>(
+  iterator: IterableIterator<T>,
+  collector: (iterator: IterableIterator<T>) => U
+): U {
+  return collector(iterator);
+}
+
 export class Iterate<T> {
   public constructor(private iterator: IterableIterator<T>) {}
 
@@ -229,8 +243,38 @@ export class Iterate<T> {
   public zip<U>(other: IterableIterator<U>) {
     return zip(this.iterator, other);
   }
+
+  public collect<U>(collector: (iterator: IterableIterator<T>) => U): U {
+    return collect(this.iterator, collector);
+  }
+
+  public raw() {
+    return this.iterator;
+  }
+
+  public peekable() {
+    const self = this;
+    let peeked = this.iterator.next();
+    return new (class extends BaseIterator {
+      public next() {
+        let old = peeked;
+        peeked = self.iterator.next();
+        return old;
+      }
+
+      public peek(): T | undefined {
+        if (peeked.done) return undefined;
+        return peeked.value;
+      }
+    })()
+  }
 }
 
 export function iterate<T>(iterator: IterableIterator<T>) {
   return new Iterate(iterator);
+}
+
+export const Collectors = {
+  array: <T>(iterator: IterableIterator<T>) => toArray(iterator),
+  map: <T, U>(iterator: IterableIterator<[T, U]>) => toMap(iterator),
 }
